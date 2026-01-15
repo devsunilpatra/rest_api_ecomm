@@ -5,7 +5,7 @@ const router = express.Router();
 import registerController from "../controllers/auth/registerController.js";
 
 
-router.get("/register", registerController.register);
+router.post("/register", registerController.register);
 
 
 export default router;
