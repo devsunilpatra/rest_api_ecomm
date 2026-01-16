@@ -1,6 +1,5 @@
 import Joi from "joi";
 
-
 const registerController = {
 
     register (req, res, next){
@@ -33,6 +32,5 @@ const registerController = {
     }
 
 }
-
 
 export default registerController
