@@ -1,32 +1,29 @@
-
+import Joi from "joi";
 import { DEBUG_MODE } from "../config/index.js";
-import validationError from "joi";
-
 
 const errorHandler = (err, req, res, next) => {
 
-let statusCode = 500;
-  
-let data = {
+  let statusCode = 500;
+
+  let data = {
 
     message: "Internal server error",
+    
+    ...(DEBUG_MODE === "true" && { originalError: err.message }),
+  };
 
-    ...(DEBUG_MODE === "true" && { originalError: err.message})
-  }
+  // Joi validation error
+  if (err instanceof Joi.ValidationError) {
 
-  if(err instanceof validationError){
+    statusCode = 422;
 
-     statusCode = 422;
+    data = {
+      message: err.message,
+    };
 
-     data = {
-
-       message: err.message
-
-      }
   }
 
   return res.status(statusCode).json(data);
+};
 
-}
-
-export default errorHandler
+export default errorHandler;
